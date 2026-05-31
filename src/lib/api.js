@@ -5,7 +5,7 @@ const getApi = () => {
 
   console.log(apiKey);
   return axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    baseURL: "https://notiqe.up.railway.app",
     headers: {
       "Content-Type": "application/json",
       ...(apiKey && { "x-api-key": apiKey }),
