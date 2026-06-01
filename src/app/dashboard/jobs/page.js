@@ -1,7 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import RichTextEditor from "@/components/RichTextEditor";
 import getApi from "@/lib/api";
 
 export default function JobsPage() {
@@ -19,23 +20,23 @@ export default function JobsPage() {
   });
   const router = useRouter();
 
+  useEffect(() => {
+    setMounted(true);
+    const token = localStorage.getItem("notifiq_token");
+    if (!token) return router.push("/login");
+    fetchJobs();
+  }, []);
+
   const fetchJobs = async () => {
     try {
       const res = await getApi().get("/jobs");
       setJobs(res.data);
     } catch {
-      router.push("/");
+      router.push("/login");
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    setMounted(true);
-    const key = localStorage.getItem("notifiq_api_key");
-    if (!key) return router.push("/");
-    fetchJobs();
-  }, []);
 
   const handleSchedule = async () => {
     if (!form.to || !form.subject || !form.body || !form.scheduledAt) {
@@ -51,11 +52,11 @@ export default function JobsPage() {
         ...form,
         scheduledAt: new Date(form.scheduledAt).toISOString(),
       });
-      setSuccess("Email scheduled successfully");
+      setSuccess("Email scheduled successfully!");
       setForm({ to: "", subject: "", body: "", scheduledAt: "" });
       fetchJobs();
     } catch (err) {
-      setError(err.message?.data?.error || "Something Went Wrong");
+      setError(err.response?.data?.error || "Something went wrong");
     } finally {
       setSubmitting(false);
     }
@@ -68,7 +69,6 @@ export default function JobsPage() {
     <div className="min-h-screen bg-gray-950">
       <Navbar />
       <div className="max-w-4xl mx-auto px-6 py-10">
-        {/* Schedule Form */}
         <h2 className="text-2xl font-bold text-white mb-6">Schedule Email</h2>
         <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-10">
           <div className="grid grid-cols-2 gap-4 mb-4">
@@ -98,12 +98,9 @@ export default function JobsPage() {
 
           <div className="mb-4">
             <label className="text-gray-400 text-sm mb-1 block">Body</label>
-            <textarea
-              placeholder="Email body..."
+            <RichTextEditor
               value={form.body}
-              onChange={(e) => setForm({ ...form, body: e.target.value })}
-              rows={3}
-              className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500 resize-none"
+              onChange={(html) => setForm({ ...form, body: html })}
             />
           </div>
 
@@ -133,7 +130,6 @@ export default function JobsPage() {
           </button>
         </div>
 
-        {/* Job History */}
         <h2 className="text-2xl font-bold text-white mb-4">Job History</h2>
         <div className="space-y-3">
           {jobs.length === 0 && (
