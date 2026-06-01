@@ -6,7 +6,8 @@ export default function Navbar() {
   const router = useRouter();
 
   const logout = () => {
-    localStorage.removeItem("notifiq_api_key");
+    localStorage.removeItem("notifiq_token");
+    localStorage.removeItem("notifiq_tenant");
     router.push("/login");
   };
 

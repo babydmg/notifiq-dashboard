@@ -1,13 +1,13 @@
 import axios from "axios";
 
 const getApi = () => {
-  const apiKey = localStorage.getItem("notifiq_api_key");
+  const token = localStorage.getItem("notifiq_token");
 
   return axios.create({
     baseURL: "https://notiqe.up.railway.app",
     headers: {
       "Content-Type": "application/json",
-      ...(apiKey && { "x-api-key": apiKey }),
+      ...(token && { Authorization: `Bearer ${token}` }),
     },
   });
 };

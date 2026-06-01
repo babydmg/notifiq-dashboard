@@ -96,7 +96,7 @@ export default function LandingPage() {
               Pricing
             </a>
             <Link
-              href="/login"
+              href="/signup"
               className="bg-gray-900 hover:bg-gray-700 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition"
             >
               Get Started Free
@@ -122,7 +122,7 @@ export default function LandingPage() {
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <Link
-              href="/login"
+              href="/signup"
               className="bg-gray-900 hover:bg-gray-700 text-white font-semibold px-10 py-4 rounded-xl transition text-lg shadow-lg"
             >
               Start for free →
@@ -284,7 +284,7 @@ export default function LandingPage() {
                 ))}
               </ul>
               <Link
-                href="/login"
+                href="/signup"
                 className="block text-center border-2 border-gray-200 hover:border-gray-400 text-gray-700 font-semibold px-6 py-4 rounded-xl transition"
               >
                 Get started free
@@ -322,7 +322,7 @@ export default function LandingPage() {
                 ))}
               </ul>
               <Link
-                href="/login"
+                href="/signup"
                 className="block text-center bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-4 rounded-xl transition"
               >
                 Start free trial
@@ -343,7 +343,7 @@ export default function LandingPage() {
             customers on autopilot.
           </p>
           <Link
-            href="/login"
+            href="/signup"
             className="inline-block bg-white hover:bg-gray-100 text-gray-900 font-bold px-12 py-5 rounded-xl transition text-xl shadow-xl"
           >
             Get started free →
