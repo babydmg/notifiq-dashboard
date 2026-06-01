@@ -14,7 +14,7 @@ export default function DashboardPage() {
   useEffect(() => {
     setMounted(true);
     const key = localStorage.getItem("notifiq_api_key");
-    if (!key) return router.push("/");
+    if (!key) return router.push("/login");
 
     getApi()
       .get("/billing/usage")
