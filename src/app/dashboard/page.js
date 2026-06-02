@@ -13,7 +13,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     setMounted(true);
-    const key = localStorage.getItem("notifiq_api_key");
+    const key = localStorage.getItem("notifiq_token");
     if (!key) return router.push("/login");
 
     getApi()
