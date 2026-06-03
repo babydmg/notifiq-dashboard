@@ -30,7 +30,12 @@ export default function DashboardPage() {
   const handleUpgrade = async () => {
     try {
       const res = await getApi().post("/billing/checkout");
-      window.location.ref = res.data.checkoutUrl;
+      console.log(res.data);
+      if (res.data.checkoutUrl) {
+        window.location.href = res.data.checkoutUrl;
+      } else {
+        console.error("No checkoutUrl in response");
+      }
     } catch (err) {
       console.error("Checkout error:", err);
     }
