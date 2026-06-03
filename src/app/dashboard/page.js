@@ -27,6 +27,15 @@ export default function DashboardPage() {
 
   if (loading) return <div className="min-h-screen bg-gray-950" />;
 
+  const handleUpgrade = async () => {
+    try {
+      const res = await getApi().post("/billing/checkout");
+      window.location.ref = res.data.checkoutUrl;
+    } catch (err) {
+      console.error("Checkout error:", err);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-950">
       <Navbar />
@@ -58,12 +67,12 @@ export default function DashboardPage() {
                 Get unlimited emails for $29/month
               </p>
             </div>
-            <a
-              href={`${process.env.NEXT_PUBLIC_API_URL}/billing/checkout`}
-              className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+            <button
+              className="cursor-pointer bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+              onClick={handleUpgrade}
             >
               Upgrade
-            </a>
+            </button>
           </div>
         )}
       </div>
