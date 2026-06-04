@@ -28,6 +28,12 @@ export default function Navbar() {
           Jobs
         </Link>
         <Link
+          href="/dashboard/blast"
+          className="text-gray-400 hover:text-white text-sm transition"
+        >
+          Blast
+        </Link>
+        <Link
           href="/dashboard/recurring"
           className="text-gray-400 hover:text-white text-sm transition"
         >
