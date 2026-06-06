@@ -144,29 +144,50 @@ export default function JobsPage() {
             </p>
           )}
           {jobs.map((job) => (
-            <div
-              key={job.id}
-              className="bg-gray-900 border border-gray-800 rounded-xl px-6 py-4 flex items-center justify-between"
-            >
-              <div>
-                <p className="text-white font-medium">{job.payload.subject}</p>
-                <p className="text-gray-400 text-sm">To: {job.payload.to}</p>
-                <p className="text-gray-500 text-xs mt-1">
-                  Scheduled: {new Date(job.scheduled_at).toLocaleString()}
-                </p>
-              </div>
-              <span
-                className={`text-xs font-medium px-3 py-1 rounded-full ${
-                  job.status === "sent"
-                    ? "bg-green-900 text-green-400"
-                    : job.status === "failed"
-                      ? "bg-red-900 text-red-400"
-                      : "bg-yellow-900 text-yellow-400"
-                }`}
+            <>
+              <div
+                key={job.id}
+                className="bg-gray-900 border border-gray-800 rounded-xl px-6 py-4 flex items-center justify-between"
               >
-                {job.status}
-              </span>
-            </div>
+                <div>
+                  <p className="text-white font-medium">
+                    {job.payload.subject}
+                  </p>
+                  <p className="text-gray-400 text-sm">To: {job.payload.to}</p>
+                  <p className="text-gray-500 text-xs mt-1">
+                    Scheduled: {new Date(job.scheduled_at).toLocaleString()}
+                  </p>
+                </div>
+                <span
+                  className={`text-xs font-medium px-3 py-1 rounded-full ${
+                    job.status === "sent"
+                      ? "bg-green-900 text-green-400"
+                      : job.status === "failed"
+                        ? "bg-red-900 text-red-400"
+                        : "bg-yellow-900 text-yellow-400"
+                  }`}
+                >
+                  {job.status}
+                </span>
+              </div>
+
+              {job.status === "sent" && (
+                <div className="flex items-center gap-6 mt-3 pt-3 border-t border-gray-800">
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-500 text-xs">👁️ Opens</span>
+                    <span className="text-white text-sm font-semibold">
+                      {job.opens || 0}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-500 text-xs">🖱️ Clicks</span>
+                    <span className="text-white text-sm font-semibold">
+                      {job.clicks || 0}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </>
           ))}
         </div>
       </div>

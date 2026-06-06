@@ -9,6 +9,11 @@ export default function DashboardPage() {
   const [usage, setUsage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [stats, setStats] = useState({
+    totalOpens: 0,
+    totalClicks: 0,
+    totalSent: 0,
+  });
   const router = useRouter();
 
   useEffect(() => {
@@ -21,6 +26,18 @@ export default function DashboardPage() {
       .then((res) => setUsage(res.data))
       .catch(() => router.push("/"))
       .finally(() => setLoading(false));
+
+    (async () => {
+      const jobsRes = await getApi().get("/jobs");
+      const sent = jobsRes.data.filter((j) => j.status === "sent");
+      const totalOpens = sent.reduce((a, b) => a + (b.opens || 0), 0);
+      const totalClicks = sent.reduce((a, b) => a + (b.clicks || 0), 0);
+      setStats({
+        totalOpens,
+        totalClicks,
+        totalSent: sent.length,
+      });
+    })();
   }, []);
 
   if (!mounted) return null;
@@ -80,6 +97,18 @@ export default function DashboardPage() {
             </button>
           </div>
         )}
+        <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <p className="text-gray-400 text-sm mb-1">Total sent</p>
+          <p className="text-white text-2xl font-bold">{stats.totalSent}</p>
+        </div>
+        <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <p className="text-gray-400 text-sm mb-1">Total opens</p>
+          <p className="text-white text-2xl font-bold">{stats.totalOpens}</p>
+        </div>
+        <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <p className="text-gray-400 text-sm mb-1">Total clicks</p>
+          <p className="text-white text-2xl font-bold">{stats.totalClicks}</p>
+        </div>
       </div>
     </div>
   );
