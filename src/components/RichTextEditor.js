@@ -4,6 +4,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link";
+import { useEffect } from "react";
 
 const ToolbarButton = ({ onClick, active, children, title }) => (
   <button
@@ -39,6 +40,14 @@ export default function RichTextEditor({ value, onChange }) {
       },
     },
   });
+
+  useEffect(() => {
+    if (!editor) return;
+    const current = editor.getHTML();
+    if (value && value !== current) {
+      editor.commands.setContent(value);
+    }
+  }, [value, editor]);
 
   if (!editor) return null;
 

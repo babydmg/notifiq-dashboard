@@ -31,7 +31,6 @@ export default function TemplatePicker({ onSelect }) {
               key={t.id}
               type="button"
               onClick={() => {
-                console.log(t);
                 onSelect(t);
                 setOpen(false);
               }}

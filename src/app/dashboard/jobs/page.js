@@ -74,7 +74,6 @@ export default function JobsPage() {
         <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-10">
           <TemplatePicker
             onSelect={(t) => {
-              console.log(t);
               setForm({ ...form, subject: t.subject, body: t.body });
             }}
           />
