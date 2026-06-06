@@ -73,9 +73,10 @@ export default function JobsPage() {
         <h2 className="text-2xl font-bold text-white mb-6">Schedule Email</h2>
         <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-10">
           <TemplatePicker
-            onSelect={(t) =>
-              setForm({ ...form, subject: t.subject, body: t.body })
-            }
+            onSelect={(t) => {
+              console.log(t);
+              setForm({ ...form, subject: t.subject, body: t.body });
+            }}
           />
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
