@@ -39,6 +39,12 @@ export default function Navbar() {
         >
           Recurring
         </Link>
+        <Link
+          href="/dashboard/templates"
+          className="text-gray-400 hover:text-white text-sm transition"
+        >
+          Templates
+        </Link>
       </div>
       <button
         onClick={logout}

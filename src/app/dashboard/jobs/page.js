@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import TemplatePicker from "@/components/TemplatePicker";
 import Navbar from "@/components/Navbar";
 import RichTextEditor from "@/components/RichTextEditor";
 import getApi from "@/lib/api";
@@ -71,6 +72,7 @@ export default function JobsPage() {
       <div className="max-w-4xl mx-auto px-6 py-10">
         <h2 className="text-2xl font-bold text-white mb-6">Schedule Email</h2>
         <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-10">
+          <TemplatePicker />
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
               <label className="text-gray-400 text-sm mb-1 block">To</label>

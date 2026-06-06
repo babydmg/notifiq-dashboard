@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import TemplatePicker from "@/components/TemplatePicker";
 import Navbar from "@/components/Navbar";
 import RichTextEditor from "@/components/RichTextEditor";
 import getApi from "@/lib/api";
@@ -79,6 +80,7 @@ export default function BlastPage() {
           </div>
         )}
 
+        <TemplatePicker />
         <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
           <div className="mb-4">
             <label className="text-gray-400 text-sm mb-1 block">Subject</label>
