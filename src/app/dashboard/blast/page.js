@@ -80,7 +80,11 @@ export default function BlastPage() {
           </div>
         )}
 
-        <TemplatePicker />
+        <TemplatePicker
+          onSelect={(t) =>
+            setForm({ ...form, subject: t.subject, body: t.body })
+          }
+        />
         <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
           <div className="mb-4">
             <label className="text-gray-400 text-sm mb-1 block">Subject</label>
