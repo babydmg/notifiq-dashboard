@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import DashboardLayout from "@/components/DashboardLayout";
 import Navbar from "@/components/Navbar";
 import RichTextEditor from "@/components/RichTextEditor";
 import getApi from "@/lib/api";
@@ -96,8 +97,7 @@ export default function TemplatesPage() {
   if (loading) return <div className="min-h-screen bg-gray-950" />;
 
   return (
-    <div className="min-h-screen bg-gray-950">
-      <Navbar />
+    <DashboardLayout>
       <div className="max-w-4xl mx-auto px-6 py-10">
         {/* Form */}
         <h2 className="text-2xl font-bold text-white mb-6">
@@ -202,6 +202,6 @@ export default function TemplatesPage() {
           ))}
         </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }

@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import getApi from "@/lib/api";
+import DashboardLayout from "@/components/DashboardLayout";
 
 export default function ContactsPage() {
   const [contacts, setContacts] = useState([]);
@@ -90,8 +91,7 @@ export default function ContactsPage() {
   if (loading) return <div className="min-h-screen bg-gray-950" />;
 
   return (
-    <div className="min-h-screen bg-gray-950">
-      <Navbar />
+    <DashboardLayout>
       <div className="max-w-4xl mx-auto px-6 py-10">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-white">Contacts</h2>
@@ -198,6 +198,6 @@ export default function ContactsPage() {
           ))}
         </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }

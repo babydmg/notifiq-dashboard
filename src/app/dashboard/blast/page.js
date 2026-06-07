@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import DashboardLayout from "@/components/DashboardLayout";
 import TemplatePicker from "@/components/TemplatePicker";
 import Navbar from "@/components/Navbar";
 import RichTextEditor from "@/components/RichTextEditor";
@@ -57,8 +58,7 @@ export default function BlastPage() {
   if (!mounted) return null;
 
   return (
-    <div className="min-h-screen bg-gray-950">
-      <Navbar />
+    <DashboardLayout>
       <div className="max-w-4xl mx-auto px-6 py-10">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-white">
@@ -133,6 +133,6 @@ export default function BlastPage() {
           </button>
         </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }
