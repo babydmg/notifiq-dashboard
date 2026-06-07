@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import EmailPreview from "@/components/EmailPreview";
 import DashboardLayout from "@/components/DashboardLayout";
 import RichTextEditor from "@/components/RichTextEditor";
 import TemplatePicker from "@/components/TemplatePicker";
@@ -10,6 +11,7 @@ export default function BlastPage() {
   const [mounted, setMounted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [contactCount, setContactCount] = useState(0);
+  const [preview, setPreview] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [form, setForm] = useState({ subject: "", body: "", scheduledAt: "" });
@@ -120,15 +122,32 @@ export default function BlastPage() {
           </div>
           {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
           {success && <p className="text-green-600 text-sm mb-3">{success}</p>}
-          <button
-            onClick={handleBlast}
-            disabled={submitting || contactCount === 0}
-            className="bg-gray-900 hover:bg-gray-700 disabled:opacity-50 text-white font-medium rounded-xl px-6 py-3 text-sm transition shadow-sm"
-          >
-            {submitting
-              ? "Scheduling..."
-              : `⚡ Schedule blast to ${contactCount} contacts`}
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleBlast}
+              disabled={submitting || contactCount === 0}
+              className="bg-gray-900 hover:bg-gray-700 disabled:opacity-50 text-white font-medium rounded-xl px-6 py-3 text-sm transition shadow-sm"
+            >
+              {submitting
+                ? "Scheduling..."
+                : `⚡ Schedule blast to ${contactCount} contacts`}
+            </button>
+            <button
+              onClick={() => setPreview(true)}
+              disabled={!form.subject && !form.body}
+              className="border border-gray-200 text-gray-600 hover:border-gray-400 hover:text-gray-900 disabled:opacity-40 font-medium rounded-xl px-6 py-3 text-sm transition"
+            >
+              👁️ Preview
+            </button>
+          </div>
+
+          {preview && (
+            <EmailPreview
+              subject={form.subject}
+              body={form.body}
+              onClose={() => setPreview(false)}
+            />
+          )}
         </div>
       </div>
     </DashboardLayout>
