@@ -10,6 +10,7 @@ const navItems = [
   { href: "/dashboard/recurring", label: "Recurring", icon: "🔄" },
   { href: "/dashboard/contacts", label: "Contacts", icon: "👥" },
   { href: "/dashboard/templates", label: "Templates", icon: "📋" },
+  { href: "/dashboard/analytics", label: "Analytics", icon: "📈" },
 ];
 
 export default function DashboardLayout({ children }) {
