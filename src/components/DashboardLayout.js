@@ -13,6 +13,7 @@ const navItems = [
   { href: "/dashboard/analytics", label: "Analytics", icon: "📈" },
   { href: "/dashboard/webhooks", label: "Webhooks", icon: "🔔" },
   { href: "/dashboard/domains", label: "Domains", icon: "🌐" },
+  { href: "/dashboard/team", label: "Team", icon: "🤝" },
 ];
 
 export default function DashboardLayout({ children }) {
