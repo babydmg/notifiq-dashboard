@@ -31,13 +31,11 @@ export default function DashboardLayout({ children }) {
     const token = localStorage.getItem("notifiq_token");
     if (!token) return router.push("/login");
 
-    // Always fetch fresh tenant info from server
     getApi()
       .get("/auth/me")
       .then((res) => {
         setTenant(res.data.tenant);
         setRole(res.data.role);
-        // Update localStorage with fresh tenant data
         localStorage.setItem("notifiq_tenant", JSON.stringify(res.data.tenant));
       })
       .catch(() => {
@@ -55,7 +53,6 @@ export default function DashboardLayout({ children }) {
 
   if (!mounted) return null;
 
-  // Hide billing-sensitive pages from members
   const visibleNav = navItems.filter((item) => {
     if (role === "member") {
       return !["/dashboard/domains", "/dashboard/team"].includes(item.href);

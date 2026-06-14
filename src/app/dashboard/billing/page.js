@@ -33,6 +33,18 @@ export default function BillingPage() {
       .finally(() => setLoading(false));
   }, []);
 
+  const handleUpgrade = async () => {
+    setUpgradeLoading(true);
+    try {
+      const res = await getApi().post("/billing/checkout");
+      window.location.href = res.data.checkoutUrl;
+    } catch (err) {
+      alert(err.response?.data?.error || "Something went wrong");
+    } finally {
+      setUpgradeLoading(false);
+    }
+  };
+
   const handlePortal = async () => {
     setPortalLoading(true);
     try {
