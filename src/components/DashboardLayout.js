@@ -15,6 +15,7 @@ const navItems = [
   { href: "/dashboard/webhooks", label: "Webhooks", icon: "🔔" },
   { href: "/dashboard/domains", label: "Domains", icon: "🌐" },
   { href: "/dashboard/team", label: "Team", icon: "👤" },
+  { href: "/dashboard/billing", label: "Billing", icon: "💳" },
   { href: "/dashboard/settings", label: "Settings", icon: "⚙️" },
 ];
 
