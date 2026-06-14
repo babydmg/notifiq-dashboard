@@ -2,22 +2,25 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
+import getApi from "@/lib/api";
 
 const navItems = [
   { href: "/dashboard", label: "Overview", icon: "▦" },
+  { href: "/dashboard/analytics", label: "Analytics", icon: "📈" },
   { href: "/dashboard/blast", label: "Campaigns", icon: "⚡" },
   { href: "/dashboard/jobs", label: "Schedule", icon: "🕐" },
   { href: "/dashboard/recurring", label: "Recurring", icon: "🔄" },
   { href: "/dashboard/contacts", label: "Contacts", icon: "👥" },
   { href: "/dashboard/templates", label: "Templates", icon: "📋" },
-  { href: "/dashboard/analytics", label: "Analytics", icon: "📈" },
   { href: "/dashboard/webhooks", label: "Webhooks", icon: "🔔" },
   { href: "/dashboard/domains", label: "Domains", icon: "🌐" },
-  { href: "/dashboard/team", label: "Team", icon: "🤝" },
+  { href: "/dashboard/team", label: "Team", icon: "👤" },
+  { href: "/dashboard/settings", label: "Settings", icon: "⚙️" },
 ];
 
 export default function DashboardLayout({ children }) {
   const [tenant, setTenant] = useState(null);
+  const [role, setRole] = useState("owner");
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -25,9 +28,22 @@ export default function DashboardLayout({ children }) {
   useEffect(() => {
     setMounted(true);
     const token = localStorage.getItem("notifiq_token");
-    const t = localStorage.getItem("notifiq_tenant");
     if (!token) return router.push("/login");
-    if (t) setTenant(JSON.parse(t));
+
+    // Always fetch fresh tenant info from server
+    getApi()
+      .get("/auth/me")
+      .then((res) => {
+        setTenant(res.data.tenant);
+        setRole(res.data.role);
+        // Update localStorage with fresh tenant data
+        localStorage.setItem("notifiq_tenant", JSON.stringify(res.data.tenant));
+      })
+      .catch(() => {
+        localStorage.removeItem("notifiq_token");
+        localStorage.removeItem("notifiq_tenant");
+        router.push("/login");
+      });
   }, []);
 
   const logout = () => {
@@ -37,6 +53,14 @@ export default function DashboardLayout({ children }) {
   };
 
   if (!mounted) return null;
+
+  // Hide billing-sensitive pages from members
+  const visibleNav = navItems.filter((item) => {
+    if (role === "member") {
+      return !["/dashboard/domains", "/dashboard/team"].includes(item.href);
+    }
+    return true;
+  });
 
   return (
     <div
@@ -86,7 +110,7 @@ export default function DashboardLayout({ children }) {
 
         {/* Nav */}
         <nav className="flex-1 px-3 py-4 space-y-0.5">
-          {navItems.map((item) => {
+          {visibleNav.map((item) => {
             const active = pathname === item.href;
             return (
               <Link
@@ -103,7 +127,7 @@ export default function DashboardLayout({ children }) {
           })}
         </nav>
 
-        {/* Bottom — tenant info + logout */}
+        {/* Bottom */}
         <div
           className="px-3 py-4 border-t"
           style={{ borderColor: "rgba(255,255,255,0.06)" }}
@@ -117,17 +141,31 @@ export default function DashboardLayout({ children }) {
                 {tenant.name}
               </p>
               <p className="text-gray-500 text-xs truncate">{tenant.email}</p>
-              <span
-                className={`inline-block mt-1.5 text-xs px-2 py-0.5 rounded-full font-medium ${
-                  tenant.plan === "pro"
-                    ? "bg-blue-900 text-blue-300"
-                    : "bg-gray-800 text-gray-400"
-                }`}
-              >
-                {tenant.plan === "pro" ? "⚡ Pro" : "Free"}
-              </span>
+              <div className="flex items-center gap-2 mt-1.5">
+                <span
+                  className={`inline-block text-xs px-2 py-0.5 rounded-full font-medium ${
+                    tenant.plan === "pro"
+                      ? "bg-blue-900 text-blue-300"
+                      : "bg-gray-800 text-gray-400"
+                  }`}
+                >
+                  {tenant.plan === "pro" ? "⚡ Pro" : "Free"}
+                </span>
+                {role !== "owner" && (
+                  <span className="inline-block text-xs px-2 py-0.5 rounded-full font-medium bg-purple-900 text-purple-300 capitalize">
+                    {role}
+                  </span>
+                )}
+              </div>
             </div>
           )}
+          <a
+            href="mailto:your@email.com?subject=Notifiq Feedback"
+            className="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-500 hover:text-gray-300 mb-1"
+          >
+            <span className="text-base w-5 text-center">💬</span>
+            Send feedback
+          </a>
           <button
             onClick={logout}
             className="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-500 hover:text-gray-300"
