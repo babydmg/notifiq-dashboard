@@ -14,6 +14,8 @@ export default function ContactsPage() {
   const [success, setSuccess] = useState("");
   const [importing, setImporting] = useState(false);
   const [search, setSearch] = useState("");
+  const [tags, setTags] = useState("");
+
   const fileRef = useRef(null);
   const router = useRouter();
 
@@ -40,7 +42,16 @@ export default function ContactsPage() {
     setError("");
     setSuccess("");
     try {
-      await getApi().post("/contacts", { email, name });
+      await getApi().post("/contacts", {
+        email,
+        name,
+        tags: tags
+          ? tags
+              .split(",")
+              .map((t) => t.trim())
+              .filter(Boolean)
+          : [],
+      });
       setSuccess("Contact added!");
       setEmail("");
       setName("");
@@ -138,6 +149,18 @@ export default function ContactsPage() {
               placeholder="Name (optional)"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              className="w-full border border-gray-200 text-gray-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 transition"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="text-gray-600 text-sm font-medium mb-1.5 block">
+              Tags (comma separated)
+            </label>
+            <input
+              type="text"
+              placeholder="vip, newsletter, customer"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
               className="w-full border border-gray-200 text-gray-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 transition"
             />
           </div>
