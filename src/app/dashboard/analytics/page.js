@@ -64,7 +64,7 @@ export default function AnalyticsPage() {
 
   const chartData =
     data?.daily.map((d) => ({
-      date: formatDate(d.data),
+      date: formatDate(d.date),
       Sent: parseInt(d.sent) || 0,
       Opens: parseInt(d.opens) || 0,
       Clicks: parseInt(d.clicks) || 0,
@@ -92,8 +92,8 @@ export default function AnalyticsPage() {
           </div>
         ) : (
           <>
-            {/* Stat cards */}
-            <div className="grid grid-cols-4 gap-4 mb-8">
+            {/* Primary stat cards */}
+            <div className="grid grid-cols-4 gap-4 mb-6">
               <StatCard
                 label="Total sent"
                 value={data?.overall.total_sent || 0}
@@ -119,7 +119,29 @@ export default function AnalyticsPage() {
               />
             </div>
 
-            {/* Chart toggle */}
+            {/* Deliverability stat cards */}
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              <StatCard
+                label="Hard bounces"
+                value={data?.overall.hard_bounces || 0}
+                sub="permanent failures"
+                color="text-red-500"
+              />
+              <StatCard
+                label="Soft bounces"
+                value={data?.overall.soft_bounces || 0}
+                sub="temporary failures"
+                color="text-orange-500"
+              />
+              <StatCard
+                label="Spam complaints"
+                value={data?.overall.spam_complaints || 0}
+                sub="marked as spam"
+                color="text-red-600"
+              />
+            </div>
+
+            {/* Main trend chart */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-gray-900 font-semibold">Last 30 days</h2>
@@ -199,7 +221,7 @@ export default function AnalyticsPage() {
               )}
             </div>
 
-            {/* Sent vs Opens vs Clicks bar chart */}
+            {/* Sent vs Opens vs Clicks + Top performing emails */}
             <div className="grid grid-cols-2 gap-6 mb-6">
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <h2 className="text-gray-900 font-semibold mb-6">
@@ -246,7 +268,6 @@ export default function AnalyticsPage() {
                 )}
               </div>
 
-              {/* Top performing emails */}
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <h2 className="text-gray-900 font-semibold mb-4">
                   Top Performing Emails

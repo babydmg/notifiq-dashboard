@@ -100,6 +100,20 @@ export default function ContactsPage() {
       (c.name && c.name.toLowerCase().includes(search.toLowerCase())),
   );
 
+  const statusBadge = (contact) => {
+    if (contact.status === "bounced") return "bg-red-100 text-red-600";
+    if (contact.status === "complained") return "bg-orange-100 text-orange-600";
+    if (!contact.subscribed) return "bg-gray-100 text-gray-500";
+    return "bg-green-100 text-green-700";
+  };
+
+  const statusLabel = (contact) => {
+    if (contact.status === "bounced") return "Bounced";
+    if (contact.status === "complained") return "Spam complaint";
+    if (!contact.subscribed) return "Unsubscribed";
+    return "Subscribed";
+  };
+
   if (!mounted) return null;
 
   return (
@@ -229,10 +243,16 @@ export default function ContactsPage() {
                   </div>
                   <div className="flex items-center gap-3">
                     <span
-                      className={`text-xs px-2.5 py-1 rounded-full font-medium ${contact.subscribed ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}
+                      className={`text-xs px-2.5 py-1 rounded-full font-medium ${statusBadge(contact)}`}
                     >
-                      {contact.subscribed ? "Subscribed" : "Unsubscribed"}
+                      {statusLabel(contact)}
                     </span>
+                    {contact.bounce_count > 0 && (
+                      <span className="text-xs text-gray-400 ml-1">
+                        ({contact.bounce_count} bounce
+                        {contact.bounce_count > 1 ? "s" : ""})
+                      </span>
+                    )}
                     <button
                       onClick={() => handleDelete(contact.id)}
                       className="text-gray-300 hover:text-red-400 text-sm transition"
