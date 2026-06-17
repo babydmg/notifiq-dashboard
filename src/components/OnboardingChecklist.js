@@ -41,7 +41,10 @@ export default function OnboardingChecklist() {
   useEffect(() => {
     getApi()
       .get("/settings/onboarding")
-      .then((res) => setProgress(res.data))
+      .then((res) => {
+        setProgress(res.data);
+        console.log(res);
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
