@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import DashboardLayout from "@/components/DashboardLayout";
+import OnboardingChecklist from "@/components/OnboardingChecklist";
+import WelcomeModal from "@/components/WelcomeModal";
 import getApi from "@/lib/api";
 
 export default function DashboardPage() {
@@ -14,6 +16,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [tenant, setTenant] = useState(null);
+  const [showWelcome, setShowWelcome] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -22,6 +25,11 @@ export default function DashboardPage() {
     const t = localStorage.getItem("notifiq_tenant");
     if (!token) return router.push("/login");
     if (t) setTenant(JSON.parse(t));
+
+    if (localStorage.getItem("notifiq_show_token") === "true") {
+      setShowWelcome(true);
+      localStorage.removeItem("notifiq_show_token");
+    }
 
     Promise.all([getApi().get("/billing/usage"), getApi().get("/jobs")])
       .then(([usageRes, jobsRes]) => {
@@ -61,6 +69,7 @@ export default function DashboardPage() {
             Here's what's happening with your emails.
           </p>
         </div>
+        <OnboardingChecklist />
 
         {/* Stat cards */}
         <div className="grid grid-cols-4 gap-4 mb-8">
@@ -172,6 +181,12 @@ export default function DashboardPage() {
           ))}
         </div>
       </div>
+      {showWelcome && (
+        <WelcomeModal
+          name={tenant?.name}
+          onClose={() => setShowWelcome(false)}
+        />
+      )}
     </DashboardLayout>
   );
 }

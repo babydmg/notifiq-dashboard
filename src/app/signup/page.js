@@ -30,6 +30,7 @@ export default function SignupPage() {
       const res = await getApi().post("/auth/signup", form);
       localStorage.setItem("notifiq_token", res.data.token);
       localStorage.setItem("notifiq_tenant", JSON.stringify(res.data.tenant));
+      localStorage.getItem("notifiq_show_welcome", "true");
       router.push("/dashboard");
     } catch (err) {
       setError(err.response?.data?.error || "Something went wrong");
