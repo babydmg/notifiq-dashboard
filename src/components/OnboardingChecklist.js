@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import getApi from "@/lib/api";
 
 const STEPS = [
@@ -13,14 +13,14 @@ const STEPS = [
   {
     key: "hasTemplate",
     title: "Create an email template",
-    desc: "Save a reusable template for your compaigns.",
-    href: "/dashboard/template",
+    desc: "Save a reusable template for your campaigns.",
+    href: "/dashboard/templates",
     icon: "📋",
   },
   {
     key: "hasSentEmail",
     title: "Schedule your first email",
-    desc: "Send a test email to see how it works",
+    desc: "Send a test email to see how it works.",
     href: "/dashboard/jobs",
     icon: "🕐",
   },
@@ -41,10 +41,7 @@ export default function OnboardingChecklist() {
   useEffect(() => {
     getApi()
       .get("/settings/onboarding")
-      .then((res) => {
-        setProgress(res.data);
-        console.log(res);
-      })
+      .then((res) => setProgress(res.data))
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
@@ -52,11 +49,11 @@ export default function OnboardingChecklist() {
   const handleDismiss = async () => {
     setDismissed(true);
     try {
-      await getApi().post("/onboarding/dismiss");
+      await getApi().post("/settings/onboarding/dismiss");
     } catch {}
   };
 
-  if (loading || !progress || !progress.isComplete || !dismissed) return null;
+  if (loading || !progress || progress.isComplete || dismissed) return null;
 
   const percent = Math.round(
     (progress.completedCount / progress.totalSteps) * 100,
