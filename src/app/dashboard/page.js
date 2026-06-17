@@ -26,9 +26,9 @@ export default function DashboardPage() {
     if (!token) return router.push("/login");
     if (t) setTenant(JSON.parse(t));
 
-    if (localStorage.getItem("notifiq_show_token") === "true") {
+    if (localStorage.getItem("notifiq_show_welcome") === "true") {
       setShowWelcome(true);
-      localStorage.removeItem("notifiq_show_token");
+      localStorage.removeItem("notifiq_show_welcome");
     }
 
     Promise.all([getApi().get("/billing/usage"), getApi().get("/jobs")])
