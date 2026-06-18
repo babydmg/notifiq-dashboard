@@ -70,6 +70,12 @@ export default function LandingPage() {
         .card-hover { transition: all 0.2s ease; }
         .card-hover:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
         .gradient-text { background: linear-gradient(135deg, #1d4ed8, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .mock-bar { animation: growBar 1.2s ease-out forwards; }
+        @keyframes growBar { from { height: 0; } }
+        .mock-float { animation: float 4s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        .mock-pulse { animation: pulseGlow 2.5s ease-in-out infinite; }
+        @keyframes pulseGlow { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.8; } }
       `}</style>
 
       {/* Navbar */}
@@ -96,7 +102,7 @@ export default function LandingPage() {
               Pricing
             </a>
             <Link
-              href="/signup"
+              href="/login"
               className="bg-gray-900 hover:bg-gray-700 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition"
             >
               Get Started Free
@@ -106,7 +112,7 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="hero-bg px-6 py-32 text-center">
+      <section className="hero-bg px-6 pt-28 pb-0 text-center">
         <div className="max-w-4xl mx-auto">
           <span className="inline-block bg-blue-50 text-blue-700 text-xs font-semibold px-4 py-1.5 rounded-full mb-8 tracking-widest uppercase border border-blue-100">
             Email Scheduling Platform
@@ -120,7 +126,7 @@ export default function LandingPage() {
             Notifiq lets businesses schedule newsletters, automate reminders,
             and run recurring email campaigns — all from one simple dashboard.
           </p>
-          <div className="flex items-center justify-center gap-4 flex-wrap">
+          <div className="flex items-center justify-center gap-4 flex-wrap mb-16">
             <Link
               href="/signup"
               className="bg-gray-900 hover:bg-gray-700 text-white font-semibold px-10 py-4 rounded-xl transition text-lg shadow-lg"
@@ -134,10 +140,190 @@ export default function LandingPage() {
               See use cases
             </a>
           </div>
-          <p className="text-gray-400 text-sm mt-8">
+          <p className="text-gray-400 text-sm mb-16">
             Free plan includes 100 emails/month · No credit card required
           </p>
         </div>
+
+        {/* Dashboard mockup */}
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="relative">
+            {/* glow behind mockup */}
+            <div
+              className="absolute inset-0 mock-pulse"
+              style={{
+                background:
+                  "radial-gradient(ellipse 60% 50% at 50% 20%, rgba(59,130,246,0.15), transparent 70%)",
+                filter: "blur(20px)",
+              }}
+            />
+
+            <div
+              className="relative bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden"
+              style={{ boxShadow: "0 40px 80px -20px rgba(0,0,0,0.2)" }}
+            >
+              {/* Browser chrome */}
+              <div className="flex items-center gap-2 px-4 py-3 bg-gray-50 border-b border-gray-100">
+                <div className="flex gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-red-300" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-300" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-green-300" />
+                </div>
+                <div className="flex-1 flex justify-center">
+                  <div className="bg-white rounded-md px-4 py-1 text-xs text-gray-400 border border-gray-100">
+                    app.notifiq.com/dashboard
+                  </div>
+                </div>
+              </div>
+
+              {/* Mock dashboard body */}
+              <div className="flex text-left">
+                {/* Mini sidebar */}
+                <div
+                  className="hidden sm:flex w-44 flex-shrink-0 flex-col py-5 px-3 gap-1"
+                  style={{ background: "#0f1117" }}
+                >
+                  <div className="flex items-center gap-2 px-2 mb-5">
+                    <div
+                      className="w-5 h-5 rounded-md flex items-center justify-center text-white text-[10px] font-bold"
+                      style={{
+                        background: "linear-gradient(135deg, #3b82f6, #6366f1)",
+                      }}
+                    >
+                      N
+                    </div>
+                    <span className="text-white text-xs font-semibold">
+                      Notifiq
+                    </span>
+                  </div>
+                  {[
+                    { label: "Overview", active: true },
+                    { label: "Analytics", active: false },
+                    { label: "Campaigns", active: false },
+                    { label: "Contacts", active: false },
+                  ].map((item) => (
+                    <div
+                      key={item.label}
+                      className={`px-2.5 py-2 rounded-lg text-xs ${item.active ? "text-white" : "text-gray-500"}`}
+                      style={{
+                        background: item.active
+                          ? "rgba(255,255,255,0.1)"
+                          : "transparent",
+                      }}
+                    >
+                      {item.label}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Main panel */}
+                <div
+                  className="flex-1 p-5 sm:p-6"
+                  style={{ background: "#f8f9fb" }}
+                >
+                  <p className="text-gray-900 font-semibold text-sm mb-4">
+                    Good to see you, Sarah 👋
+                  </p>
+
+                  {/* Stat row */}
+                  <div className="grid grid-cols-3 gap-3 mb-5">
+                    {[
+                      {
+                        label: "Sent this month",
+                        value: "12,480",
+                        color: "text-gray-900",
+                      },
+                      {
+                        label: "Open rate",
+                        value: "42.8%",
+                        color: "text-blue-600",
+                      },
+                      {
+                        label: "Click rate",
+                        value: "9.1%",
+                        color: "text-indigo-600",
+                      },
+                    ].map((s) => (
+                      <div
+                        key={s.label}
+                        className="bg-white rounded-xl border border-gray-100 p-3"
+                      >
+                        <p className="text-gray-400 text-[10px] mb-1">
+                          {s.label}
+                        </p>
+                        <p className={`text-lg font-bold ${s.color}`}>
+                          {s.value}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Mini chart */}
+                  <div className="bg-white rounded-xl border border-gray-100 p-4">
+                    <p className="text-gray-700 text-xs font-medium mb-3">
+                      Last 14 days
+                    </p>
+                    <div className="flex items-end gap-1.5 h-20">
+                      {[
+                        40, 55, 35, 70, 50, 80, 60, 90, 65, 75, 95, 70, 85, 100,
+                      ].map((h, i) => (
+                        <div
+                          key={i}
+                          className="mock-bar flex-1 rounded-t-sm"
+                          style={{
+                            height: `${h}%`,
+                            background: i === 13 ? "#3b82f6" : "#dbeafe",
+                            animationDelay: `${i * 0.05}s`,
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Floating "scheduled" card */}
+            <div className="hidden md:block absolute -right-6 top-12 mock-float">
+              <div className="bg-white rounded-xl shadow-xl border border-gray-100 p-3 w-48">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-base">📨</span>
+                  <p className="text-gray-900 text-xs font-semibold">
+                    Weekly Digest
+                  </p>
+                </div>
+                <p className="text-gray-400 text-[10px] mb-2">
+                  Scheduled for Monday, 9:00 AM
+                </p>
+                <span className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-700">
+                  pending
+                </span>
+              </div>
+            </div>
+
+            {/* Floating "sent" card */}
+            <div
+              className="hidden md:block absolute -left-6 bottom-16 mock-float"
+              style={{ animationDelay: "1s" }}
+            >
+              <div className="bg-white rounded-xl shadow-xl border border-gray-100 p-3 w-44">
+                <div className="flex items-center justify-between mb-1.5">
+                  <p className="text-gray-900 text-xs font-semibold">
+                    Order confirmed
+                  </p>
+                  <span className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full bg-green-100 text-green-700">
+                    sent
+                  </span>
+                </div>
+                <p className="text-gray-400 text-[10px]">
+                  👁️ 1,204 opens · 🖱️ 312 clicks
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="h-16" />
       </section>
 
       {/* Use cases */}
@@ -152,7 +338,7 @@ export default function LandingPage() {
               Notifiq works for you.
             </p>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-3 gap-6">
             {usecases.map((u) => (
               <div
                 key={u.label}
@@ -183,7 +369,7 @@ export default function LandingPage() {
               effective.
             </p>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-3 gap-6">
             {features.map((f) => (
               <div
                 key={f.title}
