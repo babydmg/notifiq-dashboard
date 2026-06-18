@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import DashboardLayout from "@/components/DashboardLayout";
 import getApi from "@/lib/api";
@@ -40,7 +40,6 @@ export default function SegmentsPage() {
   const handlePreview = async () => {
     setPreviewing(true);
     setPreview(null);
-
     try {
       const filters = Object.fromEntries(
         Object.entries(form.filters).filter(([_, v]) => v !== ""),
@@ -48,7 +47,7 @@ export default function SegmentsPage() {
       const res = await getApi().post("/segments/preview", { filters });
       setPreview(res.data);
     } catch (err) {
-      setError(err.response?.data?.error || "Preview failed!");
+      setError(err.response?.data?.error || "Preview failed");
     } finally {
       setPreviewing(false);
     }
@@ -59,7 +58,6 @@ export default function SegmentsPage() {
     setSubmitting(true);
     setError("");
     setSuccess("");
-
     try {
       const filters = Object.fromEntries(
         Object.entries(form.filters).filter(([_, v]) => v !== ""),
@@ -82,10 +80,10 @@ export default function SegmentsPage() {
   const handleRefresh = async (id) => {
     try {
       const res = await getApi().post(`/segments/${id}/refresh`);
-      setSuccess(`Segment refreshed - ${res.data.contact_count} contacts`);
+      setSuccess(`Segment refreshed — ${res.data.contact_count} contacts`);
       fetchSegments();
     } catch (err) {
-      setError(err.resposne?.data?.error || "Refresh failed");
+      setError(err.response?.data?.error || "Refresh failed");
     }
   };
 
@@ -94,7 +92,7 @@ export default function SegmentsPage() {
       await getApi().delete(`/segments/${id}`);
       fetchSegments();
     } catch (err) {
-      setError(err.response?.data?.error || "Refresh failed");
+      setError(err.response?.data?.error || "Delete failed");
     }
   };
 
@@ -103,15 +101,17 @@ export default function SegmentsPage() {
   return (
     <DashboardLayout>
       <div className="px-4 sm:px-6 lg:px-8 py-6 lg:py-10">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">Segments</h1>
-          <p className="text-gray-500">
+        <div className="mb-6 lg:mb-8">
+          <h1 className="text-xl lg:text-2xl font-bold text-gray-900 mb-1">
+            Segments
+          </h1>
+          <p className="text-gray-500 text-sm lg:text-base">
             Group your contacts and send targeted campaigns.
           </p>
         </div>
 
         {/* Create form */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 lg:p-6 mb-6 lg:mb-8">
           <h3 className="text-gray-900 font-semibold text-sm mb-4">
             Create Segment
           </h3>
@@ -136,7 +136,7 @@ export default function SegmentsPage() {
             </span>
           </p>
 
-          <div className="grid grid-cols-3 gap-4 mb-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
             <div>
               <label className="text-gray-500 text-xs mb-1.5 block">
                 Has tag
@@ -197,7 +197,7 @@ export default function SegmentsPage() {
                 {preview.count} contacts match these filters
               </p>
               {preview.contacts.length > 0 && (
-                <p className="text-blue-500 text-xs">
+                <p className="text-blue-500 text-xs break-words">
                   Preview: {preview.contacts.map((c) => c.email).join(", ")}
                   {preview.count > 5 ? ` and ${preview.count - 5} more...` : ""}
                 </p>
@@ -208,7 +208,7 @@ export default function SegmentsPage() {
           {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
           {success && <p className="text-green-600 text-sm mb-3">{success}</p>}
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <button
               onClick={handleCreate}
               disabled={submitting}
@@ -235,7 +235,7 @@ export default function SegmentsPage() {
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl h-20 animate-pulse border border-gray-100"
+                className="bg-white rounded-2xl h-24 lg:h-20 animate-pulse border border-gray-100"
               />
             ))}
           </div>
@@ -249,16 +249,16 @@ export default function SegmentsPage() {
             {segments.map((seg) => (
               <div
                 key={seg.id}
-                className="bg-white rounded-2xl shadow-sm border border-gray-100 px-6 py-4 flex items-center justify-between"
+                className="bg-white rounded-2xl shadow-sm border border-gray-100 px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
               >
-                <div>
+                <div className="min-w-0">
                   <p className="text-gray-900 font-medium text-sm">
                     {seg.name}
                   </p>
                   <p className="text-gray-400 text-xs mt-0.5">
                     {seg.contact_count} contacts
                   </p>
-                  <div className="flex items-center gap-2 mt-1.5">
+                  <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                     {Object.entries(seg.filters || {})
                       .filter(([_, v]) => v)
                       .map(([k, v]) => (
@@ -271,7 +271,7 @@ export default function SegmentsPage() {
                       ))}
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap flex-shrink-0">
                   <a
                     href={`/dashboard/blast?segmentId=${seg.id}&segmentName=${encodeURIComponent(seg.name)}`}
                     className="text-xs font-medium px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition"

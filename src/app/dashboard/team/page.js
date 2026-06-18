@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import DashboardLayout from "@/components/DashboardLayout";
 import getApi from "@/lib/api";
@@ -21,11 +21,7 @@ export default function TeamPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [form, setForm] = useState({
-    email: "",
-    role: "member",
-  });
-
+  const [form, setForm] = useState({ email: "", role: "member" });
   const router = useRouter();
 
   useEffect(() => {
@@ -39,7 +35,7 @@ export default function TeamPage() {
     try {
       const res = await getApi().get("/team");
       setMembers(res.data);
-    } catch (err) {
+    } catch {
       router.push("/login");
     } finally {
       setLoading(false);
@@ -86,22 +82,22 @@ export default function TeamPage() {
   return (
     <DashboardLayout>
       <div className="px-4 sm:px-6 lg:px-8 py-6 lg:py-10">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">
+        <div className="mb-6 lg:mb-8">
+          <h1 className="text-xl lg:text-2xl font-bold text-gray-900 mb-1">
             Team Members
           </h1>
-          <p className="text-gray-500">
+          <p className="text-gray-500 text-sm lg:text-base">
             Invite colleagues to manage campaigns together.
           </p>
         </div>
 
         {/* Invite form */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 lg:p-6 mb-6 lg:mb-8">
           <h3 className="text-gray-900 font-semibold text-sm mb-4">
             Invite Team Member
           </h3>
-          <div className="grid grid-cols-3 gap-4 mb-5">
-            <div className="col-span-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
+            <div className="sm:col-span-2">
               <label className="text-gray-600 text-sm font-medium mb-1.5 block">
                 Email address
               </label>
@@ -130,7 +126,7 @@ export default function TeamPage() {
           </div>
 
           {/* Role explanation */}
-          <div className="grid grid-cols-2 gap-3 mb-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
             {[
               {
                 role: "Member",
@@ -156,7 +152,7 @@ export default function TeamPage() {
           <button
             onClick={handleInvite}
             disabled={submitting}
-            className="bg-gray-900 hover:bg-gray-700 disabled:opacity-50 text-white font-medium rounded-xl px-6 py-3 text-sm transition shadow-sm"
+            className="bg-gray-900 hover:bg-gray-700 disabled:opacity-50 text-white font-medium rounded-xl px-6 py-3 text-sm transition shadow-sm w-full sm:w-auto"
           >
             {submitting ? "Sending invite..." : "Send Invitation"}
           </button>
@@ -172,7 +168,7 @@ export default function TeamPage() {
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl h-16 animate-pulse border border-gray-100"
+                className="bg-white rounded-2xl h-20 lg:h-16 animate-pulse border border-gray-100"
               />
             ))}
           </div>
@@ -188,25 +184,27 @@ export default function TeamPage() {
               members.map((member, i) => (
                 <div
                   key={member.id}
-                  className={`flex items-center justify-between px-6 py-4 ${
+                  className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-4 sm:px-6 py-4 ${
                     i !== members.length - 1 ? "border-b border-gray-50" : ""
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 text-sm font-semibold">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 text-sm font-semibold flex-shrink-0">
                       {(member.name || member.email)[0].toUpperCase()}
                     </div>
-                    <div>
-                      <p className="text-gray-900 text-sm font-medium">
+                    <div className="min-w-0">
+                      <p className="text-gray-900 text-sm font-medium truncate">
                         {member.name || member.email}
                       </p>
                       {member.name && (
-                        <p className="text-gray-400 text-xs">{member.email}</p>
+                        <p className="text-gray-400 text-xs truncate">
+                          {member.email}
+                        </p>
                       )}
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 flex-wrap pl-12 sm:pl-0">
                     <span
                       className={`text-xs px-2.5 py-1 rounded-full font-medium ${statusColors[member.status]}`}
                     >

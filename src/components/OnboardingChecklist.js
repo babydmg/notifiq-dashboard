@@ -60,8 +60,8 @@ export default function OnboardingChecklist() {
   );
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
-      <div className="flex items-center justify-between mb-5">
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 lg:p-6 mb-6 lg:mb-8">
+      <div className="flex items-center justify-between mb-4 lg:mb-5">
         <div>
           <h3 className="text-gray-900 font-semibold text-sm mb-1">
             Get started with Notifiq
@@ -72,35 +72,35 @@ export default function OnboardingChecklist() {
         </div>
         <button
           onClick={handleDismiss}
-          className="text-gray-300 hover:text-gray-500 text-sm transition"
+          className="text-gray-300 hover:text-gray-500 text-sm transition flex-shrink-0 ml-3"
         >
           Dismiss
         </button>
       </div>
 
       {/* Progress bar */}
-      <div className="w-full bg-gray-100 rounded-full h-1.5 mb-6">
+      <div className="w-full bg-gray-100 rounded-full h-1.5 mb-5 lg:mb-6">
         <div
           className="h-1.5 rounded-full bg-blue-500 transition-all duration-500"
           style={{ width: `${percent}%` }}
         />
       </div>
 
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {STEPS.map((step) => {
           const done = progress.steps[step.key];
           return (
             <a
               key={step.key}
               href={step.href}
-              className={`rounded-xl p-4 border transition ${
+              className={`rounded-xl p-3 lg:p-4 border transition ${
                 done
                   ? "bg-green-50 border-green-100"
                   : "bg-gray-50 border-gray-100 hover:border-gray-300"
               }`}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xl">{step.icon}</span>
+                <span className="text-lg lg:text-xl">{step.icon}</span>
                 {done && <span className="text-green-500 text-sm">✓</span>}
               </div>
               <p
@@ -108,7 +108,9 @@ export default function OnboardingChecklist() {
               >
                 {step.title}
               </p>
-              <p className="text-gray-400 text-xs leading-snug">{step.desc}</p>
+              <p className="text-gray-400 text-xs leading-snug hidden lg:block">
+                {step.desc}
+              </p>
             </a>
           );
         })}
