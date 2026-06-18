@@ -17,9 +17,9 @@ import {
 } from "recharts";
 
 const StatCard = ({ label, value, sub, color = "text-gray-900" }) => (
-  <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-    <p className="text-gray-500 text-sm mb-3">{label}</p>
-    <p className={`text-3xl font-bold mb-1 ${color}`}>{value}</p>
+  <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 lg:p-6">
+    <p className="text-gray-500 text-xs lg:text-sm mb-2 lg:mb-3">{label}</p>
+    <p className={`text-2xl lg:text-3xl font-bold mb-1 ${color}`}>{value}</p>
     {sub && <p className="text-gray-400 text-xs">{sub}</p>}
   </div>
 );
@@ -74,26 +74,28 @@ export default function AnalyticsPage() {
     <DashboardLayout>
       <div className="px-4 sm:px-6 lg:px-8 py-6 lg:py-10">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">Analytics</h1>
-          <p className="text-gray-500">
+        <div className="mb-6 lg:mb-8">
+          <h1 className="text-xl lg:text-2xl font-bold text-gray-900 mb-1">
+            Analytics
+          </h1>
+          <p className="text-gray-500 text-sm lg:text-base">
             Track your email performance over time.
           </p>
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-8">
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl h-32 animate-pulse border border-gray-100"
+                className="bg-white rounded-2xl h-28 lg:h-32 animate-pulse border border-gray-100"
               />
             ))}
           </div>
         ) : (
           <>
             {/* Primary stat cards */}
-            <div className="grid grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-4 lg:mb-6">
               <StatCard
                 label="Total sent"
                 value={data?.overall.total_sent || 0}
@@ -120,7 +122,7 @@ export default function AnalyticsPage() {
             </div>
 
             {/* Deliverability stat cards */}
-            <div className="grid grid-cols-3 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4 mb-6 lg:mb-8">
               <StatCard
                 label="Hard bounces"
                 value={data?.overall.hard_bounces || 0}
@@ -142,15 +144,15 @@ export default function AnalyticsPage() {
             </div>
 
             {/* Main trend chart */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
-              <div className="flex items-center justify-between mb-6">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 lg:p-6 mb-6">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
                 <h2 className="text-gray-900 font-semibold">Last 30 days</h2>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 overflow-x-auto">
                   {["sent", "opens", "clicks"].map((type) => (
                     <button
                       key={type}
                       onClick={() => setActiveChart(type)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition capitalize border ${
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition capitalize border flex-shrink-0 ${
                         activeChart === type
                           ? "bg-gray-900 text-white border-gray-900"
                           : "bg-white text-gray-500 border-gray-200 hover:border-gray-400"
@@ -169,8 +171,8 @@ export default function AnalyticsPage() {
                   </p>
                 </div>
               ) : (
-                <ResponsiveContainer width="100%" height={240}>
-                  <AreaChart data={chartData}>
+                <ResponsiveContainer width="100%" height={220}>
+                  <AreaChart data={chartData} margin={{ left: -20, right: 10 }}>
                     <defs>
                       <linearGradient
                         id="colorGrad"
@@ -194,14 +196,16 @@ export default function AnalyticsPage() {
                     <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
                     <XAxis
                       dataKey="date"
-                      tick={{ fontSize: 11, fill: "#94a3b8" }}
+                      tick={{ fontSize: 10, fill: "#94a3b8" }}
                       axisLine={false}
                       tickLine={false}
+                      interval="preserveStartEnd"
                     />
                     <YAxis
-                      tick={{ fontSize: 11, fill: "#94a3b8" }}
+                      tick={{ fontSize: 10, fill: "#94a3b8" }}
                       axisLine={false}
                       tickLine={false}
+                      width={30}
                     />
                     <Tooltip content={<CustomTooltip />} />
                     <Area
@@ -222,8 +226,8 @@ export default function AnalyticsPage() {
             </div>
 
             {/* Sent vs Opens vs Clicks + Top performing emails */}
-            <div className="grid grid-cols-2 gap-6 mb-6">
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 lg:p-6">
                 <h2 className="text-gray-900 font-semibold mb-6">
                   Sent vs Opens vs Clicks
                 </h2>
@@ -233,18 +237,23 @@ export default function AnalyticsPage() {
                   </div>
                 ) : (
                   <ResponsiveContainer width="100%" height={200}>
-                    <BarChart data={chartData}>
+                    <BarChart
+                      data={chartData}
+                      margin={{ left: -20, right: 10 }}
+                    >
                       <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
                       <XAxis
                         dataKey="date"
-                        tick={{ fontSize: 10, fill: "#94a3b8" }}
+                        tick={{ fontSize: 9, fill: "#94a3b8" }}
                         axisLine={false}
                         tickLine={false}
+                        interval="preserveStartEnd"
                       />
                       <YAxis
-                        tick={{ fontSize: 10, fill: "#94a3b8" }}
+                        tick={{ fontSize: 9, fill: "#94a3b8" }}
                         axisLine={false}
                         tickLine={false}
+                        width={25}
                       />
                       <Tooltip content={<CustomTooltip />} />
                       <Legend wrapperStyle={{ fontSize: "11px" }} />
@@ -268,7 +277,7 @@ export default function AnalyticsPage() {
                 )}
               </div>
 
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 lg:p-6">
                 <h2 className="text-gray-900 font-semibold mb-4">
                   Top Performing Emails
                 </h2>
@@ -309,11 +318,11 @@ export default function AnalyticsPage() {
             </div>
 
             {/* Status breakdown */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 lg:p-6">
               <h2 className="text-gray-900 font-semibold mb-4">
                 Job Status Breakdown
               </h2>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
                 {[
                   {
                     label: "Sent",
