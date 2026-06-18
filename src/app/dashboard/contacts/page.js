@@ -118,7 +118,7 @@ export default function ContactsPage() {
 
   return (
     <DashboardLayout>
-      <div className="px-8 py-10">
+      <div className="px-4 sm:px-6 lg:px-8 py-6 lg:py-10">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 mb-1">Contacts</h1>
@@ -150,7 +150,7 @@ export default function ContactsPage() {
           <h3 className="text-gray-900 font-semibold text-sm mb-4">
             Add Contact
           </h3>
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <input
               type="email"
               placeholder="Email address"

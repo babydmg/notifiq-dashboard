@@ -152,7 +152,7 @@ export default function LandingPage() {
               Notifiq works for you.
             </p>
           </div>
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {usecases.map((u) => (
               <div
                 key={u.label}
@@ -183,7 +183,7 @@ export default function LandingPage() {
               effective.
             </p>
           </div>
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {features.map((f) => (
               <div
                 key={f.title}

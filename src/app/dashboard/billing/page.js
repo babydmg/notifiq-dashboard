@@ -61,7 +61,7 @@ export default function BillingPage() {
 
   return (
     <DashboardLayout>
-      <div className="px-8 py-10 max-w-3xl">
+      <div className="px-4 sm:px-6 lg:px-8 py-6 lg:py-10 max-w-3xl">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-1">Billing</h1>
           <p className="text-gray-500">

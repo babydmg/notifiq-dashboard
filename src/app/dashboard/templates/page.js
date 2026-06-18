@@ -77,7 +77,7 @@ export default function TemplatesPage() {
 
   return (
     <DashboardLayout>
-      <div className="px-8 py-10">
+      <div className="px-4 sm:px-6 lg:px-8 py-6 lg:py-10">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-1">
             {editing ? "Edit Template" : "Templates"}
@@ -89,7 +89,7 @@ export default function TemplatesPage() {
 
         {/* Form */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <div>
               <label className="text-gray-600 text-sm font-medium mb-1.5 block">
                 Template Name
